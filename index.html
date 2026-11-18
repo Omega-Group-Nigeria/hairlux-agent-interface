@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Become a Hairlux Agent | Hairlux Agents</title>
+  <meta name="description" content="Become a Hairlux field sales and booking agent: bring new customers to Hairlux in your area and earn daily, plus a monthly bonus." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#2E2E2E" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Hairlux Agents" />
+  <link rel="icon" href="assets/img/pwa/favicon-32.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/img/pwa/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="assets/css/agent.css" rel="stylesheet" />
+</head>
+<body>
+  <header class="landing-top"><div class="inner">
+    <a href="index.html"><img src="assets/img/logo-side-white.webp" alt="Hairlux Salon &amp; Spa" /></a>
+    <div class="row"><a class="btn btn-outline btn-sm" style="color:#fff;border-color:rgba(255,255,255,.3)" href="log-in.html" id="top-signin">Sign in</a><a class="btn btn-gold btn-sm" href="sign-up.html">Apply</a></div>
+  </div></header>
+
+  <section class="landing-hero"><div class="inner">
+    <div>
+      <h1>Earn with <span>Hairlux</span> in your area</h1>
+      <p>Hairlux field agents introduce people to Hairlux Salon &amp; Spa, help them sign up on the app and book their first service. Meet your daily target and get paid; reach your monthly goal and earn a bonus.</p>
+      <div class="row mt-4"><a class="btn btn-gold" href="sign-up.html">Apply to be an agent</a><a class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.3)" href="log-in.html">I am already an agent</a></div>
+      <p class="small mt-3 hidden" id="closed" style="color:#f0dca8">Hairlux is not taking new agents right now. Please check back later.</p>
+    </div>
+    <div class="landing-panel">
+      <h3 style="color:#fff">How it works</h3>
+      <ol>
+        <li>Apply with your details and the area you will cover.</li>
+        <li>Hairlux reviews your application. Once approved, accept the agent terms.</li>
+        <li>Share your code, link or QR code. Customers sign up with it and book.</li>
+        <li>Track your results every day and withdraw to your bank account.</li>
+      </ol>
+    </div>
+  </div></section>
+
+  <section class="landing-section">
+    <h2>What you can earn</h2>
+    <div class="features" id="rules">
+      <div class="feature"><div class="k">Every day</div><h3 id="r-daily">A daily earning</h3><p class="muted mb-0" id="r-daily-text">On each day you meet the daily target of sign-ups and paid bookings.</p></div>
+      <div class="feature"><div class="k">Every month</div><h3 id="r-bonus">A monthly bonus</h3><p class="muted mb-0" id="r-bonus-text">When you reach your monthly goal of paid bookings.</p></div>
+      <div class="feature"><div class="k">Extras</div><h3>Campaign incentives</h3><p class="muted mb-0">Hairlux adds rewards for special campaigns and for beating your targets.</p></div>
+    </div>
+  </section>
+
+  <section class="landing-section" style="padding-top:0">
+    <h2>What counts</h2>
+    <ul class="needs">
+      <li>Customers who sign up with your code, link or QR code and verify their email</li>
+      <li>Each customer's first paid booking</li>
+      <li>Leads you log: if they sign up later with the same phone number, they count for you</li>
+      <li>Cancelled or duplicate bookings never count</li>
+    </ul>
+    <h2 class="mt-4">What you need to apply</h2>
+    <ul class="needs">
+      <li>Your name, phone number and email</li>
+      <li>Your home address and a recent photograph</li>
+      <li>The area you will work</li>
+      <li>A Nigerian bank account in your name, for payments</li>
+    </ul>
+  </section>
+
+  <footer class="footer">Hairlux Field Sales &amp; Booking Agents. Questions? <a href="#" id="support"></a></footer>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script>
+    (function () {
+      var cfg = window.AGENT_CONFIG || {};
+      var s = document.getElementById('support');
+      s.textContent = cfg.SUPPORT_EMAIL || '';
+      s.href = 'mailto:' + (cfg.SUPPORT_EMAIL || '');
+      if (AgentApi.signedIn()) { var t = document.getElementById('top-signin'); t.textContent = 'Open my account'; t.href = 'dashboard.html'; }
+      AgentApi.request('/public/agents/info', { anonymous: true }).then(function (i) {
+        if (!i.acceptingApplications) document.getElementById('closed').classList.remove('hidden');
+        document.getElementById('r-daily').textContent = 'Up to ' + UI.ngn(i.dailyEarningAmount) + ' a day';
+        document.getElementById('r-daily-text').textContent = 'On each day you bring in ' + i.qualifyRegistrations + ' verified sign-ups and ' + i.qualifyPaidBookings + ' paid bookings. Paid into your wallet 24 hours later.';
+        var top = (i.bonusLevels || [])[0];
+        if (top) {
+          document.getElementById('r-bonus').textContent = UI.ngn(top.amount) + ' monthly bonus';
+          document.getElementById('r-bonus-text').textContent = 'When you reach ' + top.bookings + ' paid bookings in a month' + (i.bonusLevels.length > 1 ? ', with more for going further.' : '.');
+        }
+      }).catch(function () { /* the general wording stays */ });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Apply | Hairlux Agents</title>
+  <meta name="description" content="Hairlux field sales and booking agents: bring in customers, track your results and get paid." />
+  <meta name="robots" content="noindex" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#2E2E2E" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Hairlux Agents" />
+  <link rel="icon" href="assets/img/pwa/favicon-32.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/img/pwa/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="assets/css/agent.css" rel="stylesheet" />
+</head>
+<body>
+<div class="auth">
+  <aside class="auth-brand">
+    <div>
+      <a href="index.html"><img class="logo" src="assets/img/logo-side-white.webp" alt="Hairlux Salon &amp; Spa" /></a>
+      <h1>Earn with <span>Hairlux</span></h1>
+      <p>Bring new customers to Hairlux in your area. Every customer who signs up with your code and makes a paid booking counts for you.</p>
+      <ul class="auth-points">
+        <li>A daily earning on every day you meet your target</li>
+        <li>A monthly bonus when you reach your paid-booking goal</li>
+        <li>Your wallet, paid to your bank account</li>
+      </ul>
+    </div>
+    <div class="foot">Hairlux Field Sales &amp; Booking Agents</div>
+  </aside>
+  <main class="auth-main"><div class="auth-box">
+    <h2>Apply to be an agent</h2>
+    <p class="sub">Hairlux reviews every application. You can start once you are approved and accept the agent terms.</p>
+    <div class="alert warn hidden" id="closed"><strong>Applications are closed</strong>Hairlux is not taking new agents right now. Please check back later.</div>
+    <form id="form" novalidate>
+      <div class="grid-2">
+        <div class="field"><label for="firstName">First name</label><input class="input" id="firstName" autocomplete="given-name" required /></div>
+        <div class="field"><label for="lastName">Last name</label><input class="input" id="lastName" autocomplete="family-name" required /></div>
+      </div>
+      <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" autocomplete="email" required /></div>
+      <div class="field"><label for="phone">Phone number</label><input class="input" id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="0803 123 4567" required /></div>
+      <div class="field"><label for="address">Home address</label><input class="input" id="address" autocomplete="street-address" required /></div>
+      <div class="grid-2">
+        <div class="field"><label for="territory">Area you will work</label><input class="input" id="territory" placeholder="e.g. Lekki, Ajah" required /></div>
+        <div class="field"><label for="state">State</label><input class="input" id="state" placeholder="e.g. Lagos" /></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label for="emergencyContactName">Emergency contact (optional)</label><input class="input" id="emergencyContactName" placeholder="Name" /></div>
+        <div class="field"><label for="emergencyContactPhone">Their phone (optional)</label><input class="input" id="emergencyContactPhone" type="tel" inputmode="tel" /></div>
+      </div>
+      <div class="field"><label for="password">Password</label><input class="input" id="password" type="password" autocomplete="new-password" required />
+        <div class="hint">At least 8 characters, with a capital letter, a small letter and a number.</div></div>
+      <div class="error-text hidden" id="error"></div>
+      <button class="btn btn-gold btn-block" id="submit" data-busy="Sending">Send application</button>
+    </form>
+    <p class="auth-alt">Already an agent? <a href="log-in.html">Sign in</a></p>
+    <p class="auth-alt small">You add your photo and bank account after you sign in.</p>
+  </div></main>
+</div>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>AuthPages.signUp();</script>
+</body>
+</html>
