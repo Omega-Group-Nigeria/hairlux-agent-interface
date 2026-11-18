@@ -16,8 +16,8 @@
       '<div class="card"><div class="card-head"><h2>You</h2>' + UI.badge(UI.AGENT_STATUS, m.status) + '</div>' +
       '<div class="photo-row mb-3">' + (m.photoUrl ? '<img class="avatar" src="' + esc(m.photoUrl) + '" alt="Your photo">' : '<div class="avatar">No photo</div>') +
       '<div><div class="name"><strong>' + esc(m.firstName + ' ' + m.lastName) + '</strong></div><div class="small muted">Agent ID ' + esc(m.agentNumber) + ' · Code ' + esc(m.referralCode) + '</div>' +
-      '<label class="btn btn-outline btn-sm mt-2" for="photo">' + (m.photoUrl ? 'Change photo' : 'Add a photo') + '</label><input type="file" id="photo" accept="image/*" class="hidden">' +
-      '<div class="small muted mt-2">A clear, recent photo of your face. It is shown to Hairlux staff.</div></div></div>' +
+      '<label class="btn btn-outline btn-sm mt-2" for="photo">' + (m.photoUrl ? 'Change photo' : 'Add a photo') + '</label><input type="file" id="photo" accept="image/jpeg,image/png,image/webp" class="hidden">' +
+      '<div class="small muted mt-2">A clear, recent photo of your face. JPG, PNG or WebP, up to 5 MB. Only you and Hairlux staff can see it.</div></div></div>' +
       '<div class="kv"><div><div class="label">Email</div>' + esc(m.email) + '</div><div><div class="label">Phone</div>' + esc(m.phone || '-') + '</div>' +
       '<div><div class="label">Area</div>' + esc(m.territory) + (m.state ? ', ' + esc(m.state) : '') + ' <span class="small muted">(Hairlux changes this for you)</span></div></div>' +
       '<form id="p-form" novalidate><div class="field"><label for="p-address">Home address</label><input class="input" id="p-address" value="' + esc(m.address) + '"></div>' +
