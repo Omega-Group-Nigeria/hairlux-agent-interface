@@ -75,7 +75,7 @@ var UI = (function () {
     { href: 'profile.html', label: 'Profile' },
   ];
 
-  /** Signed-in pages: redirect to sign in if needed, then draw the top and bottom bars. */
+  /** Signed-in pages: redirect to sign in if needed, then draw the top bar (a dropdown menu on phones). */
   function shell() {
     if (!AgentApi.signedIn()) {
       var here = location.pathname.split('/').pop() || 'dashboard.html';
@@ -92,14 +92,26 @@ var UI = (function () {
       '<div class="who"><a class="bell" href="notifications.html" aria-label="Notifications" title="Notifications">' +
       '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>' +
       '<span class="dot hidden" id="bell-count"></span></a>' +
-      '<span class="name">' + esc([u.firstName, u.lastName].filter(Boolean).join(' ')) + '</span><button class="btn btn-outline btn-sm" id="btn-signout">Sign out</button></div></div>';
+      '<span class="name">' + esc([u.firstName, u.lastName].filter(Boolean).join(' ')) + '</span><button class="btn btn-outline btn-sm" id="btn-signout">Sign out</button>' +
+      '<button class="menu-btn" id="menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">' +
+      '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></svg></button>' +
+      '</div></div>' +
+      '<nav class="mobile-menu" id="mobile-menu" aria-label="Main" hidden>' +
+      '<div class="who-m">' + esc([u.firstName, u.lastName].filter(Boolean).join(' ')) + '</div>' + links +
+      '<button class="btn btn-outline btn-sm" id="btn-signout-m" type="button">Sign out</button></nav>';
     document.body.prepend(top);
-    var bottom = document.createElement('nav');
-    bottom.className = 'bottomnav';
-    bottom.setAttribute('aria-label', 'Main');
-    bottom.innerHTML = links;
-    document.body.appendChild(bottom);
     $('#btn-signout').addEventListener('click', AgentApi.signOut);
+    $('#btn-signout-m').addEventListener('click', AgentApi.signOut);
+    var menuBtn = $('#menu-btn'), menu = $('#mobile-menu');
+    function setMenu(open) {
+      menu.hidden = !open;
+      menuBtn.setAttribute('aria-expanded', String(open));
+      top.classList.toggle('menu-open', open);
+    }
+    menuBtn.addEventListener('click', function (e) { e.stopPropagation(); setMenu(menu.hidden); });
+    document.addEventListener('click', function (e) { if (!menu.hidden && !top.contains(e.target)) setMenu(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { setMenu(false); menuBtn.focus(); } });
+    window.addEventListener('resize', function () { if (window.innerWidth > 760 && !menu.hidden) setMenu(false); });
     AgentApi.request('/agent/notifications?unread=true&limit=1').then(function (r) {
       var n = (r.meta && r.meta.unread) || 0;
       var el = $('#bell-count');
