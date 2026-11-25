@@ -163,7 +163,40 @@ var UI = (function () {
     catch (e) { window.prompt('Copy this:', text); }
   }
 
+  var EYE = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var EYE_OFF = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.6 5.1A10.7 10.7 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7a10 10 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M2 2l20 20"/></svg>';
+
+  /** Adds a show / hide button to every password box on the page. */
+  function passwordToggles(root) {
+    $all('input[type="password"]', root).forEach(function (input) {
+      if (input.dataset.toggle) return;
+      input.dataset.toggle = '1';
+      var wrap = document.createElement('div');
+      wrap.className = 'password-wrap';
+      input.parentNode.insertBefore(wrap, input);
+      wrap.appendChild(input);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'password-toggle';
+      btn.setAttribute('aria-label', 'Show password');
+      btn.setAttribute('aria-pressed', 'false');
+      btn.innerHTML = EYE;
+      btn.addEventListener('click', function () {
+        var show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        btn.innerHTML = show ? EYE_OFF : EYE;
+        btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+        btn.setAttribute('aria-pressed', String(show));
+        input.focus();
+      });
+      wrap.appendChild(btn);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { passwordToggles(); });
+  else passwordToggles();
+
   return {
+    passwordToggles: passwordToggles,
     $: $, $all: $all, esc: esc, ngn: ngn, num: num, date: date, dateTime: dateTime, day: day, today: today, toast: toast, busy: busy,
     badge: badge, bar: bar, AGENT_STATUS: AGENT_STATUS, shell: shell, me: me, forgetMe: forgetMe, params: params, safeNext: safeNext,
     dialog: dialog, copy: copy,
